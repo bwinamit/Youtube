@@ -2,13 +2,22 @@ import React from 'react'
 import { Menu, Mic, Bell, User } from 'lucide-react'
 import { FaYoutube } from 'react-icons/fa'
 import { FiSearch } from 'react-icons/fi'
+import { useDispatch } from 'react-redux'
+import { toggleMenu } from '../Utils/appSlice'
 
 const Head = () => {
+  const dispatch = useDispatch()
+  const toggleHandler = () => {
+    // Logic to toggle the sidebar
+    dispatch(toggleMenu())
+  }
   return (
     <div className="flex justify-between items-center px-4 py-2 shadow-md bg-white">
       {/* Left Section: Hamburger + YouTube */}
       <div className="flex items-center gap-4">
-        <Menu className="w-6 h-6 cursor-pointer" />
+        <Menu className="w-6 h-6 cursor-pointer"  
+        onClick={toggleHandler}
+        />
         <div className="flex items-center gap-1 cursor-pointer">
           <FaYoutube className="text-red-600 w-7 h-7" />
           <span className="text-xl font-bold">YouTube</span>

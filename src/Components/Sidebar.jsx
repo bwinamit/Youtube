@@ -1,4 +1,5 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import {
   Home,
   Video,
@@ -9,7 +10,8 @@ import {
 } from 'lucide-react'
 
 const Sidebar = () => {
-  return (
+  const isMenuOpen = useSelector((store) => store.app.isMenuOpen)
+  return !isMenuOpen? null :  (
     <div className="w-60 p-4 space-y-6 bg-white shadow-md h-screen text-sm font-medium">
       {/* Section 1: Main Navigation */}
       <div className="space-y-4">
