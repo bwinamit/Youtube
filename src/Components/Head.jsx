@@ -4,8 +4,26 @@ import { FaYoutube } from 'react-icons/fa'
 import { FiSearch } from 'react-icons/fi'
 import { useDispatch } from 'react-redux'
 import { toggleMenu } from '../Utils/appSlice'
+import { useState,useEffect } from 'react'
+import { YOUTUBE_SEARCH_API } from '../Utils/Constants'
 
 const Head = () => {
+  const [searchQuery, setSearchQuery] =useState("")
+
+  useEffect(() =>{
+   const timer = setTimeout(() => {
+    getSearchResuslts()
+   }, 200); 
+    return () => {
+      clearTimeout(timer)
+    }
+  },[searchQuery])
+
+  const getSearchResuslts = async () => {
+    const data = await fetch(YOUTUBE_SEARCH_API + searchQuery)
+    const json = await data.json()
+    console.log(json)
+  }
   const dispatch = useDispatch()
   const toggleHandler = () => {
     // Logic to toggle the sidebar
@@ -27,6 +45,8 @@ const Head = () => {
       {/* Center Section: Search */}
       <div className="flex items-center w-full max-w-xl">
         <input
+          onChange={(e) => setSearchQuery(e.target.value)}
+          value={searchQuery}
           type="text"
           placeholder="Search"
           className="w-full border border-gray-300 rounded-l-full px-4 py-2 focus:outline-none focus:ring-1 focus:ring-gray-400"
