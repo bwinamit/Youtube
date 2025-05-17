@@ -1,5 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 import {
   Home,
   Video,
@@ -15,7 +16,7 @@ const Sidebar = () => {
     <div className="w-60 p-4 space-y-6 bg-white shadow-md h-screen text-sm font-medium">
       {/* Section 1: Main Navigation */}
       <div className="space-y-4">
-        <SidebarItem icon={<Home />} label="Home" />
+       <Link to="/"> <SidebarItem icon={<Home />} label="Home" /> </Link> 
         <SidebarItem icon={<Flame />} label="Shorts" />
         <SidebarItem icon={<Video />} label="Videos" />
         <SidebarItem icon={<Radio />} label="Live" />
