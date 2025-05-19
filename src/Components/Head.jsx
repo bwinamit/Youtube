@@ -9,6 +9,8 @@ import { YOUTUBE_SEARCH_API } from '../Utils/Constants'
 
 const Head = () => {
   const [searchQuery, setSearchQuery] =useState("")
+  const [suggestions, setSuggestions] = useState([])
+  const [showSuggestions, setShowSuggestions] = useState(false)
 
   useEffect(() =>{
    const timer = setTimeout(() => {
@@ -23,6 +25,7 @@ const Head = () => {
     const data = await fetch(YOUTUBE_SEARCH_API + searchQuery)
     const json = await data.json()
     console.log(json)
+    setSuggestions(json[1])
   }
   const dispatch = useDispatch()
   const toggleHandler = () => {
@@ -49,6 +52,8 @@ const Head = () => {
           value={searchQuery}
           type="text"
           placeholder="Search"
+          onFocus={() => setShowSuggestions(true)}
+          onBlur={() => setShowSuggestions(false)}
           className="w-full border border-gray-300 rounded-l-full px-4 py-2 focus:outline-none focus:ring-1 focus:ring-gray-400"
         />
         <button className="bg-gray-100 border border-gray-300 px-4 py-2 rounded-r-full">
@@ -58,6 +63,23 @@ const Head = () => {
           <Mic className="w-5 h-5" />
         </button>
       </div>
+     {showSuggestions && suggestions.length > 0 && (
+  <div className="absolute top-[60px] left-1/2 transform -translate-x-1/2 w-full max-w-xl bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+    <ul className="max-h-80 overflow-y-auto">
+      {suggestions.map((suggestion, index) => (
+        <li
+          key={index}
+          className="flex items-center gap-3 px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm text-gray-700"
+        >
+          <FiSearch className="w-4 h-4 text-gray-500" />
+          {suggestion}
+        </li>
+      ))}
+    </ul>
+  </div>
+)}
+
+
 
       {/* Right Section: Notification + User */}
       <div className="flex items-center gap-4">
