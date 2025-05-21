@@ -2,19 +2,27 @@ import React from 'react'
 import { Menu, Mic, Bell, User } from 'lucide-react'
 import { FaYoutube } from 'react-icons/fa'
 import { FiSearch } from 'react-icons/fi'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { toggleMenu } from '../Utils/appSlice'
 import { useState,useEffect } from 'react'
 import { YOUTUBE_SEARCH_API } from '../Utils/Constants'
+import { cacheResults } from '../Utils/searchSlice'
 
 const Head = () => {
+  const dispatch = useDispatch()
   const [searchQuery, setSearchQuery] =useState("")
   const [suggestions, setSuggestions] = useState([])
   const [showSuggestions, setShowSuggestions] = useState(false)
+  const searchCache = useSelector((store) => store.search)
 
   useEffect(() =>{
    const timer = setTimeout(() => {
+    if (searchCache[searchQuery]) {
+      setSuggestions(searchCache[searchQuery])
+    }
+    else{
     getSearchResuslts()
+    }
    }, 200); 
     return () => {
       clearTimeout(timer)
@@ -26,8 +34,11 @@ const Head = () => {
     const json = await data.json()
     console.log(json)
     setSuggestions(json[1])
+    dispatch(cacheResults({
+      [searchQuery]: json[1],
+    }))
   }
-  const dispatch = useDispatch()
+  
   const toggleHandler = () => {
     // Logic to toggle the sidebar
     dispatch(toggleMenu())
