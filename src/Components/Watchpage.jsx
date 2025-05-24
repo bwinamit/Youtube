@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { closeMenu } from "../Utils/appSlice";
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
+import CommentsContainer from "./CommentsContainer";
 
 const Watchpage = () => {
   const dispatch = useDispatch();
@@ -15,7 +16,8 @@ const Watchpage = () => {
   }, []);
   return (
     <div>
-      <iframe
+      <div>
+        <iframe
         width="800"
         height="400"
         src={"https://www.youtube.com/embed/" + searchParams.get("v")}
@@ -25,6 +27,8 @@ const Watchpage = () => {
         referrerpolicy="strict-origin-when-cross-origin"
         allowFullScreen
       ></iframe>
+      </div>
+      <CommentsContainer />
     </div>
   );
 };
